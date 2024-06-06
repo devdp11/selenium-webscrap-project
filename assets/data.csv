@@ -1,1 +1,1 @@
-uuid, movie, average_rating, genre, comment_user, comment_text, user_rating, comment_date
+uuid, movie_name, movie_rating, movie_genre, comment_user, comment_date, comment_text

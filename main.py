@@ -3,14 +3,13 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 import time
 
-# Initialize the webdriver service
 service = Service(executable_path="chromedriver.exe")
 driver = webdriver.Chrome(service=service)
 
 driver.get("https://m.imdb.com/chart/moviemeter/")
 driver.maximize_window()
 
-time.sleep(3)  # Wait for the page to load completely
+time.sleep(1)
 
 movies = driver.find_elements(By.CSS_SELECTOR, 'a.ipc-title-link-wrapper')
 
@@ -26,6 +25,15 @@ for index in range(len(movies)):
         print(f"Success on: open movie {index + 1}")
         
         try:
+            movie_rating = driver.find_element(By.CSS_SELECTOR, 'span[class="sc-bde20123-1 cMEQkK"]').text
+            movie_name = driver.find_element(By.CSS_SELECTOR, 'span[class="hero__primary-text"]').text
+            genre_elements = driver.find_elements(By.CSS_SELECTOR, 'div.ipc-chip-list__scroller a.ipc-chip span.ipc-chip__text')
+            genres = "; ".join([genre.text for genre in genre_elements])
+
+            print(f"Movie name: {movie_name}")
+            print(f"Movie rating: {movie_rating}")
+            print(f"Movie genres: {genres}")
+
             user_reviews_span = driver.find_element(By.CSS_SELECTOR, 'span.three-Elements > span.score')
             driver.execute_script("arguments[0].scrollIntoView(true);", user_reviews_span)
             user_reviews_span.click()
