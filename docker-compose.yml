@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:sha256-f455c50fb82017dae23878c1b12fb2188dfb984723d62db2c5bd0c1f78e246f0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - network.host=0.0.0.0
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+  kibana:
+    image: docker.elastic.co/kibana/kibana:sha256-eb1acf7eddbbe96c556ffaed0bb0ec7a238f46c6f98e8325bc475d29584527df
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+
+volumes:
+  esdata:
+    driver: local
