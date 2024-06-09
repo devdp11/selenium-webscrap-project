@@ -1,5 +1,4 @@
 uuid,result,movie_name,movie_date,movie_rating,movie_genre,comment_user,comment_date,comment_text
-uuid,negative,movie_name,movie_date,movie_rating,movie_genre,comment_user,comment_date,comment_text
 7ec5ba46-9b05-4d4a-90da-cbb504c48012,positive,Furiosa: Uma Saga Mad Max,2024,7.9,Action; Adventure; Sci-Fi,jethro-17881,23 May 2024,George Miller
 bbdef862-d590-4c22-b81c-ad08dfba30ef,positive,Furiosa: Uma Saga Mad Max,2024,7.9,Action; Adventure; Sci-Fi,alwinsup,23 May 2024,Pretty good movie
 1a5aa676-39a6-43f4-a7e7-b8ef093e90b0,negative,Furiosa: Uma Saga Mad Max,2024,7.9,Action; Adventure; Sci-Fi,masonsaul,25 May 2024,It would be folly to try and outdo Fury Road and Furiosa: A Mad Max Saga is smart enough to not even attempt that
