@@ -19,5 +19,3 @@ with open(output_file, mode='w', newline='', encoding='utf-8') as outfile:
     writer = csv.writer(outfile)
     writer.writerow(new_header)
     writer.writerows(rows)
-
-print(f'Arquivo CSV modificado foi salvo como {output_file}')
