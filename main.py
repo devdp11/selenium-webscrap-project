@@ -2,6 +2,8 @@ import csv
 import uuid
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 import time
 
@@ -11,7 +13,7 @@ driver = webdriver.Chrome(service=service)
 driver.get("https://m.imdb.com/chart/moviemeter/")
 driver.maximize_window()
 
-time.sleep(1)
+time.sleep(5)
 
 with open('./assets/data.csv', mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
@@ -31,7 +33,7 @@ with open('./assets/data.csv', mode='w', newline='', encoding='utf-8') as file:
             print(f"Success on: open movie {index + 1}")
             
             try:
-                movie_name = driver.find_element(By.CSS_SELECTOR, 'span[class="hero__primary-text"]').text
+                movie_name = driver.find_element(By.CSS_SELECTOR, 'span.hero__primary-text').text
                 date_elements = driver.find_elements(By.CSS_SELECTOR, 'a.ipc-link.ipc-link--baseAlt.ipc-link--inherit-color')
                 movie_date = None
 
@@ -47,12 +49,14 @@ with open('./assets/data.csv', mode='w', newline='', encoding='utf-8') as file:
                     continue
 
                 try:
-                    movie_rating = driver.find_element(By.CSS_SELECTOR, 'span[class="sc-bde20123-1 cMEQkK"]').text
+                    movie_rating_element = WebDriverWait(driver, 10).until(
+                        EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-testid="hero-rating-bar__aggregate-rating__score"] span.sc-bde20123-1.cMEQkK'))
+                    )
+                    movie_rating = movie_rating_element.text
                 except Exception as e:
                     print(f"Rating not found for movie {index + 1}: {movie_name}")
-                    driver.back()
-                    continue
-                
+                    movie_rating = "N/A"
+
                 genre_elements = driver.find_elements(By.CSS_SELECTOR, 'div.ipc-chip-list__scroller a.ipc-chip span.ipc-chip__text')
                 genres = "; ".join([genre.text for genre in genre_elements])
 
@@ -71,7 +75,7 @@ with open('./assets/data.csv', mode='w', newline='', encoding='utf-8') as file:
                 driver.execute_script("arguments[0].scrollIntoView(true);", user_reviews_span)
                 user_reviews_span.click()
                 
-                time.sleep(1)
+                time.sleep(2)
                 print(f"Success on: user reviews for movie {index + 1}")
 
                 try:
